@@ -12,10 +12,10 @@ app.use(express.json());
 
 // making connection with database
 const db = mysql.createConnection({
-  host: "localhost",
-  user: "root",
-  password: "",
-  database: "self_traker",
+  host: "sql100.epizy.com",
+  user: "epiz_27732996",
+  password: "enOwCLAFAhwwOr",
+  database: "epiz_27732996_data",
 });
 app.listen(process.env.PORT || PORT, () => {
   console.log("Server is running");

@@ -17,7 +17,7 @@ const db = mysql.createConnection({
   password: "",
   database: "self_traker",
 });
-app.listen(3001, () => {
+app.listen(process.env.PORT || PORT, () => {
   console.log("Server is running");
 });
 

@@ -7,7 +7,7 @@ const session = require("express-session");
 app.use(session({ secret: "Self-Traker" }));
 
 // Require for Getting data
-//app.use(cors());
+app.use(cors());
 app.use(express.json());
 
 // making connection with database
@@ -19,6 +19,7 @@ const db = mysql.createConnection({
 });
 app.listen(process.env.PORT || PORT, () => {
   console.log("Server is running");
+  alert("Sever is running");
 });
 
 // Post Request For Inserting data for signup

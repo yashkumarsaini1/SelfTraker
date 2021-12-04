@@ -29,7 +29,6 @@ db.connect();
 
 // Post Request For Inserting data for signup
 app.post("/signup", (req, res) => {
-  console.log(db.state);
   const name = req.body.name;
   const username = req.body.username;
   const password = req.body.password;
@@ -48,7 +47,6 @@ app.post("/signup", (req, res) => {
 });
 // Checking for duplicate username
 app.post("/checkuser", (req, res) => {
-  console.log(db.state);
   const username = req.body.username;
 
   db.query(
@@ -80,7 +78,6 @@ app.post("/login", (req, res) => {
   sess = req.session;
   const username = req.body.username;
   const password = req.body.password;
-  console.log(sess);
 
   db.query(
     "SELECT * FROM users WHERE username=(?) AND password=(?)",
@@ -103,7 +100,6 @@ app.post("/login", (req, res) => {
   );
 });
 app.get("/auth", (req, res) => {
-  console.log(sess.user_id);
   res.send(sess.isAuth);
 });
 

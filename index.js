@@ -19,7 +19,6 @@ const db = mysql.createConnection({
 });
 app.listen(process.env.PORT || PORT, () => {
   console.log("Server is running");
-  alert("Sever is running");
 });
 
 // Post Request For Inserting data for signup

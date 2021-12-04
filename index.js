@@ -7,7 +7,7 @@ const session = require("express-session");
 app.use(session({ secret: "Self-Traker" }));
 
 // Require for Getting data
-app.use(cors());
+//app.use(cors());
 app.use(express.json());
 
 // making connection with database

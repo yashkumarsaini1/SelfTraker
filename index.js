@@ -24,6 +24,9 @@ const db = mysql.createConnection({
   password: "Root2021",
   database: "selftraker",
 });
+app.listen(process.env.PORT || PORT, () => {
+  console.log("Server is running");
+});
 
 db.connect();
 
@@ -489,6 +492,4 @@ app.post("/catseven", (req, res) => {
     );
   }
 });
-app.listen(process.env.PORT || PORT, () => {
-  console.log("Server is running");
-});
+

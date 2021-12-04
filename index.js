@@ -28,7 +28,7 @@ app.listen(process.env.PORT || PORT, () => {
   console.log("Server is running");
 });
 
-db.connect();
+// db.connect();
 
 // Post Request For Inserting data for signup
 app.post("/signup", (req, res) => {

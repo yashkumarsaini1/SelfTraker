@@ -11,18 +11,25 @@ app.use(cors());
 app.use(express.json());
 
 // making connection with database
+// const db = mysql.createConnection({
+//   host: "localhost",
+//   user: "root",
+//   password: "",
+//   database: "self_traker",
+// });
+
 const db = mysql.createConnection({
-  host: "sql100.epizy.com",
-  user: "epiz_27732996",
-  password: "enOwCLAFAhwwOr",
-  database: "epiz_27732996_data",
+  host: "db4free.net",
+  user: "selfroot",
+  password: "Root2021",
+  database: "selftraker",
 });
-app.listen(process.env.PORT || PORT, () => {
-  console.log("Server is running");
-});
+
+db.connect();
 
 // Post Request For Inserting data for signup
 app.post("/signup", (req, res) => {
+  console.log(db.state);
   const name = req.body.name;
   const username = req.body.username;
   const password = req.body.password;
@@ -41,6 +48,7 @@ app.post("/signup", (req, res) => {
 });
 // Checking for duplicate username
 app.post("/checkuser", (req, res) => {
+  console.log(db.state);
   const username = req.body.username;
 
   db.query(
@@ -72,6 +80,7 @@ app.post("/login", (req, res) => {
   sess = req.session;
   const username = req.body.username;
   const password = req.body.password;
+  console.log(sess);
 
   db.query(
     "SELECT * FROM users WHERE username=(?) AND password=(?)",
@@ -94,6 +103,7 @@ app.post("/login", (req, res) => {
   );
 });
 app.get("/auth", (req, res) => {
+  console.log(sess.user_id);
   res.send(sess.isAuth);
 });
 
@@ -436,16 +446,53 @@ app.post("/subseven", (req, res) => {
       "SELECT SUM(duration) AS total,date,month,year FROM data WHERE sub_id=(?) AND user_id=(?) AND com_date =?",
       [sub_id, sess.user_id, days[i]],
       (err, result) => {
-        const a = result[0];
-        if (err) {
-          console.log(err);
-        } else {
-          resultData.push(a);
-        }
-        if (i === 6) {
-          res.send(resultData);
+        if (result > 0) {
+          const a = result[0];
+          if (err) {
+            console.log(err);
+          } else {
+            resultData.push(a);
+          }
+          if (i === 6) {
+            res.send(resultData);
+          }
         }
       }
     );
   }
+});
+
+// Get Last 7 Data of Subjct
+app.post("/catseven", (req, res) => {
+  const cat_id = req.body.cat_id;
+  const day1 = req.body.day1;
+  const day2 = req.body.day2;
+  const day3 = req.body.day3;
+  const day4 = req.body.day4;
+  const day5 = req.body.day5;
+  const day6 = req.body.day6;
+  const day7 = req.body.day7;
+  const days = [day1, day2, day3, day4, day5, day6, day7];
+
+  const resultData1 = [];
+  for (let i = 0; i < 7; i++) {
+    db.query(
+      "SELECT SUM(duration) AS total,date,month,year FROM data WHERE user_id=(?) AND com_date =? AND sub_id IN( SELECT sub_id FROM sub_cat WHERE cat_id=(?)) ",
+      [sess.user_id, days[i], cat_id],
+      (err, result) => {
+        const a = result[0];
+        if (err) {
+          console.log(err);
+        } else {
+          resultData1.push(a);
+        }
+        if (i === 6) {
+          res.send(resultData1);
+        }
+      }
+    );
+  }
+});
+app.listen(3001, () => {
+  console.log("Server is running");
 });
